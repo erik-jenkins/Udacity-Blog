@@ -1,0 +1,25 @@
+<head>
+	<style type="text/css">
+	#newpost {
+		display: none;
+	}
+	</style>
+</head>
+
+<div class="container">
+	<form method="post">
+		<label>
+			<div class="subject">Subject:</div>
+			<input type="text" name="subject" class="form-control">
+		</label>
+		<br>
+		<label>
+			<div class="content">Content:</div>
+			<textarea name="content" class="form-control" cols="30" rows="10"></textarea>
+		</label>
+		<br>
+		<input type="submit" class="btn btn-primary">
+		<br>
+		<p class="text-danger">{{ post_error }}</p>
+	</form>
+</div>
