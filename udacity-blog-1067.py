@@ -64,13 +64,14 @@ class Handler(webapp2.RequestHandler):
 	def get_user_logged_in(self):
 		userhash = self.request.cookies.get('user')
 
-		userhash = userhash.split('|')
+		if userhash:
+			userhash = userhash.split('|')
 
-		if len(userhash) > 1:
-			username = userhash[0]
-			hashed_password = userhash[1]
+			if len(userhash) > 1:
+				username = userhash[0]
+				hashed_password = userhash[1]
 
-			return verify_password(username, hashed_password)
+				return verify_password(username, hashed_password)
 
 class MainHandler(Handler):
 
@@ -242,8 +243,8 @@ class LogoutHandler(Handler):
 
 	def get(self):
 		self.response.headers.add_header('Set-Cookie', 'user=%s; Path=/' % 
-			                             'none')
-		self.render_blog()
+			                             '')
+		self.redirect('/signup')
 
 # routes
 app = webapp2.WSGIApplication([
