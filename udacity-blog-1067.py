@@ -14,7 +14,7 @@ class Post(db.Model):
 	created = db.DateTimeProperty(auto_now_add = True)
 
 class Handler(webapp2.RequestHandler):
-	
+
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
 
@@ -68,10 +68,74 @@ class LoginHandler(Handler):
 	def get(self):
 		self.render_blog('login')
 
+	def post(self):
+		pass
+
+
 class SignupHandler(Handler):
 
 	def get(self):
 		self.render_blog('signup')
+
+	def post(self):
+		username = self.request.get('username')
+		password = self.request.get('password')
+		verify = self.request.get('verify')
+		email = self.request.get('email')
+
+		if( self.verify_username( username ) and
+			self.verify_password( password) and
+			verify == password and
+			(not email or self.verify_email( email))):
+			self.redirect('/');
+
+		else:
+			username_error = ''
+			password_error = ''
+			verify_error = ''
+			email_error = ''
+
+			if not self.verify_username( username ):
+				username_error = 'Invalid username!'
+				username = ''
+				
+
+			if not self.verify_password( password ):
+				password_error = 'Invalid password!'
+				password = ''
+				verify = ''
+				
+
+			if not verify == password:
+				verify_error = 'Passwords do not match!'
+				password = ''
+				verify = ''
+				
+			if email and not self.verify_email( email ):
+				email_error = 'Invalid email address!'
+				email = ''
+
+			self.render_blog('signup', 
+			                 username = username,
+			                 password = password,
+			                 verify = verify,
+			                 email = email,
+			                 username_error = username_error,
+			                 password_error = password_error,
+			                 verify_error = verify_error,
+			                 email_error = email_error)
+
+	def verify_username( self, un ):
+		USER_RE = re.compile("^[a-zA-Z0-9_-]{3,20}$")
+		return USER_RE.match(un)
+
+	def verify_password( self, pw ):
+		PASS_RE = re.compile("^.{3,20}$")
+		return PASS_RE.match(pw)
+
+	def verify_email( self, em ):
+		EMAIL_RE = re.compile("^[\S]+@[\S]+\.[\S]+$")
+		return EMAIL_RE.match(em)
 
 app = webapp2.WSGIApplication([
     (r'/', MainHandler),

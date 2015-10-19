@@ -5,6 +5,9 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /templates/css
+  static_dir: templates/css
+
 - url: .*
   script: udacity-blog-1067.app
 
