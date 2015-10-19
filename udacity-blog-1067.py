@@ -26,7 +26,7 @@ class Handler(webapp2.RequestHandler):
 		self.write(self.render_str(template, **kw))
 
 	def render_blog(self, body='blog', **kw):
-		self.render('index.html.jinja2', body=body, **kw)
+		self.render('index.html.jinja2', body = body + '.html.jinja2', **kw)
 
 class MainHandler(Handler):
 
@@ -68,8 +68,14 @@ class LoginHandler(Handler):
 	def get(self):
 		self.render_blog('login')
 
+class SignupHandler(Handler):
+
+	def get(self):
+		self.render_blog('signup')
+
 app = webapp2.WSGIApplication([
     (r'/', MainHandler),
+    (r'/signup', SignupHandler),
     (r'/login', LoginHandler),
     (r'/newpost', NewPostHandler),
     (r'/viewpost/(\d+)', ViewPostHandler)
