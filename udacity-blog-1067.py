@@ -266,5 +266,5 @@ app = webapp2.WSGIApplication([
     (r'/newpost', NewPostHandler),
     (r'/viewpost/(\d+)', ViewPostHandler),
     (r'/.json', MainJSONHandler),
-    (r'/viewpost/(\d+)'m PostJSONHandler)
+    (r'/viewpost/(\d+).json', PostJSONHandler)
 ])
