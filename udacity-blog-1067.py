@@ -246,6 +246,16 @@ class LogoutHandler(Handler):
 			                             '')
 		self.redirect('/signup')
 
+class MainJSONHandler(Handler):
+
+	def get(self):
+		pass
+
+class PostJSONHandler(Handler):
+
+	def get(self):
+		pass
+
 # routes
 app = webapp2.WSGIApplication([
     (r'/', MainHandler),
@@ -254,5 +264,7 @@ app = webapp2.WSGIApplication([
     (r'/logout', LogoutHandler),
     (r'/welcome', WelcomeHandler),
     (r'/newpost', NewPostHandler),
-    (r'/viewpost/(\d+)', ViewPostHandler)
+    (r'/viewpost/(\d+)', ViewPostHandler),
+    (r'/.json', MainJSONHandler),
+    (r'/viewpost/(\d+)'m PostJSONHandler)
 ])
