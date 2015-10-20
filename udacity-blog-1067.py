@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import webapp2, os, jinja2, re, hmac, random, string
+import webapp2, os, jinja2, re, hmac, random, string, json
 
 from google.appengine.ext import db
 
@@ -257,11 +257,22 @@ class MainJSONHandler(Handler):
 class PostJSONHandler(Handler):
 
 	def get(self, post_id):
-		post = Post.get_by_id(int(post_id))
-		json_dict = {}
+		print postToJSON(post_id)
+		
 
-		json_dict['content'] = post.content
+def postToJSON(post_id):
+	post = Post.get_by_id(int(post_id))
+	json_dict = {}
 
+	json_dict['content'] = post.content
+	json_dict['created'] = makeDateString(post.created)
+	json_dict['last_modified'] = makeDateString(post.lastmodified)
+	json_dict['subject'] = post.subject
+
+	return json.dumps(json_dict)
+
+def makeDateString(datetime):
+	return datetime.strftime('%a %b %d %X %Y')
 
 # routes
 app = webapp2.WSGIApplication([
