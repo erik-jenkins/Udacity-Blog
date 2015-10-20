@@ -258,10 +258,12 @@ class MainJSONHandler(Handler):
 
 		posts = list(posts)
 
-		for post in posts:
-			jsonString += postToJSON(post.key().id())
+		json_posts = []
 
-		jsonString += ']'
+		for post in posts:
+			json_posts.append(postToJSON(post.key().id()))
+
+		jsonString += ','.join(json_posts) + ']'
 
 		self.write(jsonString)
 
