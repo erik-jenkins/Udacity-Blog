@@ -39,6 +39,7 @@ class Post(db.Model):
 	subject = db.StringProperty(required = True)
 	content = db.TextProperty(required = True)
 	created = db.DateTimeProperty(auto_now_add = True)
+	lastmodified = db.DateTimeProperty(auto_now = True)
 
 class Handler(webapp2.RequestHandler):
 
@@ -255,8 +256,12 @@ class MainJSONHandler(Handler):
 
 class PostJSONHandler(Handler):
 
-	def get(self):
-		pass
+	def get(self, post_id):
+		post = Post.get_by_id(int(post_id))
+		json_dict = {}
+
+		json_dict['content'] = post.content
+
 
 # routes
 app = webapp2.WSGIApplication([
