@@ -78,6 +78,8 @@ class MainHandler(Handler):
 	def get(self):
 		posts = db.GqlQuery('SELECT * from Post ORDER BY created DESC')
 
+		posts = list(posts)
+
 		self.render_blog(posts = posts)
 		
 class NewPostHandler(Handler):
