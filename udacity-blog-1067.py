@@ -251,7 +251,19 @@ class LogoutHandler(Handler):
 class MainJSONHandler(Handler):
 
 	def get(self):
-		pass
+		self.response.headers.add_header('Content-Type', 'application/json')
+		jsonString = '['
+
+		posts = db.GqlQuery('SELECT * from Post ORDER BY created DESC')
+
+		posts = list(posts)
+
+		for post in posts:
+			jsonString += postToJSON(post.key().id())
+
+		jsonString += ']'
+
+		self.write(jsonString)
 
 class PostJSONHandler(Handler):
 
