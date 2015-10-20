@@ -29,7 +29,6 @@ def verify_password(username, hashed_password):
 		if val == stored_hashed_password:
 			return username
 
-
 class User(db.Model):
 	username = db.StringProperty(required = True)
 	password = db.StringProperty(required = True)
@@ -257,8 +256,8 @@ class MainJSONHandler(Handler):
 class PostJSONHandler(Handler):
 
 	def get(self, post_id):
-		print postToJSON(post_id)
-		
+		self.response.headers.add_header('Content-Type', 'application/json')
+		self.write(postToJSON(post_id))
 
 def postToJSON(post_id):
 	post = Post.get_by_id(int(post_id))
